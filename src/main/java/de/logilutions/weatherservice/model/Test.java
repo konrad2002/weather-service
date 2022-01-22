@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "test")
@@ -20,4 +21,7 @@ public class Test {
 
     @Column(nullable = false, name = "name")
     private String name;
+
+    @Column(name = "birthday")
+    private LocalDate birthday;
 }
