@@ -3,6 +3,7 @@ package de.logilutions.weatherservice.controller;
 import de.logilutions.weatherservice.model.Unit;
 import de.logilutions.weatherservice.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -29,16 +30,19 @@ public class UnitController {
         return unitService.getById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public Unit postUnit(@RequestBody Unit unit) {
         return unitService.addUnit(unit);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
     public Unit updateUnit(@RequestBody Unit unit) {
         return unitService.saveUnit(unit);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("{id}")
     public void deleteUnit(@PathVariable Long id) {
         unitService.deleteUnit(id);

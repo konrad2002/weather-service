@@ -5,6 +5,7 @@ import de.logilutions.weatherservice.model.Test;
 import de.logilutions.weatherservice.service.MeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -27,6 +28,11 @@ public class MeasurementController {
         return measurementService.getAll();
     }
 
+    @GetMapping("limit/{limit}")
+    public List<Measurement> getAllLimitTo(@PathVariable int limit) {
+        return measurementService.getAllLimitTo(limit);
+    }
+
     @GetMapping("timestamp")
     public List<Measurement> getAllBetween(
             @RequestParam(name = "start")
@@ -42,6 +48,16 @@ public class MeasurementController {
     @GetMapping("unit/{key}")
     public List<Measurement> getAllByUnit(@PathVariable String key) {
         return measurementService.getAllByUnit(key);
+    }
+
+    @GetMapping("unit/{key}/latest")
+    public Measurement getLatestByUnit(@PathVariable String key) {
+        return measurementService.getLatestByUnit(key);
+    }
+
+    @GetMapping("unit/{key}/limit/{limit}")
+    public List<Measurement> getAllByUnit(@PathVariable String key, @PathVariable int limit) {
+        return measurementService.getAllByUnitLimitTo(key, limit);
     }
 
     @GetMapping("timestamp/unit/{key}")
@@ -65,21 +81,25 @@ public class MeasurementController {
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
     public Measurement putMeasurement(@RequestBody Measurement measurement) {
         return measurementService.saveMeasurement(measurement);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("all")
     public List<Measurement> putAllMeasurements(@RequestBody List<Measurement> measurements) {
         return measurementService.addAll(measurements);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public Measurement postMeasurement(@RequestBody Measurement measurement) {
         return measurementService.addMeasurement(measurement);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("{id}")
     public void deleteMeasurement(@PathVariable Long id) {
         measurementService.deleteMeasurement(id);
