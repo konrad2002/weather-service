@@ -1,13 +1,10 @@
 package de.logilutions.weatherservice.repository;
 
 import de.logilutions.weatherservice.model.Measurement;
-import de.logilutions.weatherservice.model.Test;
 import de.logilutions.weatherservice.model.Unit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.List;
 

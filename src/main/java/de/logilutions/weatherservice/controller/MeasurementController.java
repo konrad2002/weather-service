@@ -1,7 +1,6 @@
 package de.logilutions.weatherservice.controller;
 
 import de.logilutions.weatherservice.model.Measurement;
-import de.logilutions.weatherservice.model.Test;
 import de.logilutions.weatherservice.service.MeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
