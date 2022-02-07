@@ -29,6 +29,11 @@ public class MeasurementService {
         return measurementRepository.findAll();
     }
 
+
+    public List<Measurement> getAllLimitTo(int limit) {
+        return measurementRepository.findMeasurementByIdIsNotNullOrderByTimestampDesc().stream().limit(limit).toList();
+    }
+
     public List<Measurement> getAllBetween(LocalDateTime start, LocalDateTime end) {
         return measurementRepository.findMeasurementByTimestampBetweenOrderByTimestamp(start, end);
     }
@@ -56,6 +61,18 @@ public class MeasurementService {
         } else {
             return measurement;
         }
+    }
+
+    public List<Measurement> getAllByUnitLimitTo(String key, int limit) {
+        Unit unit = unitRepository.findUnitByKey(key);
+        if (unit == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no unit with key " + key + " found!");
+        }
+        return measurementRepository.findMeasurementByUnitOrderByTimestampDesc(unit).stream().limit(limit).toList();
+    }
+
+    public Measurement getLatestByUnit(String key) {
+        return getAllByUnitLimitTo(key, 1).get(0);
     }
 
 
